@@ -1,1 +1,3 @@
-export default () => <p>Hello World!</p>;
+import Item from '../components/Item';
+
+export default () => <Item />;
