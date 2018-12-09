@@ -1,10 +1,12 @@
 import gql from 'graphql-tag';
+import axios from 'axios';
 import Router from 'next/router';
 import { Mutation } from 'react-apollo';
 
 import Form from '../styles/Form';
+import Error from '../ErrorMessage';
 import formatMoney from '../../lib/formatMoney';
-import ErrorMessage from '../ErrorMessage';
+import { cloudinaryUploadPreset, cloudinaryAPI } from '../../config';
 
 const CREATE_ITEM_MUTATION = gql`
   mutation CREATE_ITEM_MUTATION(
@@ -42,6 +44,20 @@ export default class CreateItem extends React.Component {
     this.setState({ [name]: val });
   };
 
+  uploadFile = async e => {
+    const { files } = e.target;
+
+    const formData = new FormData();
+    formData.append('file', files[0]);
+    formData.append('upload_preset', cloudinaryUploadPreset);
+
+    const {
+      data: { secure_url, eager },
+    } = await axios.post(cloudinaryAPI, formData);
+
+    // this.setState({ image: secure_url, largeImage: eager[0].url });
+  };
+
   render() {
     const { title, description, image, largeImage, price } = this.state;
 
@@ -50,6 +66,7 @@ export default class CreateItem extends React.Component {
         {(createItem, { loading, error }) => {
           return (
             <Form
+              data-test="form"
               onSubmit={async e => {
                 e.preventDefault();
                 const { data } = await createItem();
@@ -59,8 +76,15 @@ export default class CreateItem extends React.Component {
                 });
               }}
             >
-              <h2>Sell an item</h2>
+              <Error error={error} />
               <fieldset disabled={loading} aria-busy={loading}>
+                <InputField
+                  type="file"
+                  value={image}
+                  text="File"
+                  onChange={this.uploadFile}
+                />
+                {image && <img width="200" src={image} alt="Upload Preview" />}
                 <InputField
                   type="text"
                   value={title}

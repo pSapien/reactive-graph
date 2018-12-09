@@ -24,9 +24,7 @@ const DisplayError = ({ error = {} }) => {
     error.networkError.result.errors.length
   ) {
     return error.networkError.result.errors.map((error, i) => (
-      <React.Fragment id={i}>
-        <ErrorMessage message={error.message} />
-      </React.Fragment>
+      <ErrorMessage message={error.message} key={i} />
     ));
   }
 
