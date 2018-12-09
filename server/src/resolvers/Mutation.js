@@ -5,14 +5,13 @@ const Mutations = {
   },
   async updateItem(parent, args, ctx, info) {
     const updates = { ...args };
+    const where = { id: args.id };
     delete updates.id;
-    await ctx.db.mutation.updateItem(
-      { data: updates, where: { id: args.id } },
-      info
-    );
+    await ctx.db.mutation.updateItem({ data: updates, where }, info);
   },
   async deleteItem(parent, args, ctx, info) {
-    await ctx.db.mutation.deleteItem({ id: args.id });
+    const where = { id: args.id };
+    return await ctx.db.mutation.deleteItem({ where });
   },
 };
 

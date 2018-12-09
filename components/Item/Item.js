@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Title from '../styles/Title';
 import PriceTag from '../styles/PriceTag';
 import ItemStyles from '../styles/ItemStyles';
+import DeleteItem from '../DeleteItem';
 import formatMoney from '../../lib/formatMoney';
 
 export default function Item(props) {
@@ -28,7 +29,7 @@ export default function Item(props) {
           <a>Edit</a>
         </Link>
         <button>Add To Cart</button>
-        <button>Delete </button>
+        <DeleteItem buttonText="Delete This Item" id={id} />
       </div>
     </ItemStyles>
   );

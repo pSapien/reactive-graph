@@ -40,7 +40,7 @@ export default class Items extends React.Component {
 
             return (
               <ItemsList>
-                {data.items.map((item) => (
+                {data.items.map(item => (
                   <Item key={item.id} item={item} />
                 ))}
               </ItemsList>
@@ -51,3 +51,5 @@ export default class Items extends React.Component {
     );
   }
 }
+
+export { ALL_ITEMS_QUERY };
