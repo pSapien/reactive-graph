@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import Router from 'next/router';
 import { Mutation } from 'react-apollo';
 
 import Form from '../styles/Form';
@@ -49,31 +50,38 @@ export default class CreateItem extends React.Component {
         {(createItem, { loading, error }) => {
           return (
             <Form
-              onSubmit={e => {
+              onSubmit={async e => {
                 e.preventDefault();
+                const { data } = await createItem();
+                Router.push({
+                  pathname: '/item',
+                  query: { id: data.createItem.id },
+                });
               }}
             >
               <h2>Sell an item</h2>
-              <InputField
-                type="text"
-                value={title}
-                text="Title"
-                handleChange={this.handleChange}
-              />
-              <InputField
-                type="number"
-                value={price}
-                text="Price"
-                handleChange={this.handleChange}
-              />
-              <InputField
-                type="text"
-                value={description}
-                text="Description"
-                handleChange={this.handleChange}
-                tag="textarea"
-              />
-              <button type="submit">Submit</button>
+              <fieldset disabled={loading} aria-busy={loading}>
+                <InputField
+                  type="text"
+                  value={title}
+                  text="Title"
+                  onChange={this.handleChange}
+                />
+                <InputField
+                  type="number"
+                  value={price}
+                  text="Price"
+                  onChange={this.handleChange}
+                />
+                <InputField
+                  type="text"
+                  value={description}
+                  text="Description"
+                  onChange={this.handleChange}
+                  tag="textarea"
+                />
+                <button type="submit">Submit</button>
+              </fieldset>
             </Form>
           );
         }}
@@ -83,24 +91,22 @@ export default class CreateItem extends React.Component {
 }
 
 const InputField = props => {
-  const { text, handleChange, value, title, tag, type } = props;
+  const { text, onChange, value, title, tag, type } = props;
   const name = text.toLowerCase();
   const TagName = tag || 'input';
 
   return (
-    <fieldset>
-      <label htmlFor={name}>
-        {text}
-        <TagName
-          id={name}
-          type={type}
-          name={name}
-          value={value}
-          onChange={handleChange}
-          placeholder={text}
-          required
-        />
-      </label>
-    </fieldset>
+    <label htmlFor={name}>
+      {text}
+      <TagName
+        id={name}
+        type={type}
+        name={name}
+        value={value}
+        onChange={onChange}
+        placeholder={text}
+        required
+      />
+    </label>
   );
 };
