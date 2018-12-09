@@ -55,7 +55,7 @@ export default class CreateItem extends React.Component {
       data: { secure_url, eager },
     } = await axios.post(cloudinaryAPI, formData);
 
-    // this.setState({ image: secure_url, largeImage: eager[0].url });
+    this.setState({ image: secure_url, largeImage: eager[0].url });
   };
 
   render() {
@@ -80,7 +80,6 @@ export default class CreateItem extends React.Component {
               <fieldset disabled={loading} aria-busy={loading}>
                 <InputField
                   type="file"
-                  value={image}
                   text="File"
                   onChange={this.uploadFile}
                 />
