@@ -34,7 +34,7 @@ export default class CreateItem extends React.Component {
     description: '',
     image: '',
     largeImage: '',
-    price: 0,
+    price: '',
   };
 
   handleChange = e => {
