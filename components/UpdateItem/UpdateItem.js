@@ -30,6 +30,7 @@ const SINGLE_ITEM_QUERY = gql`
     item(where: { id: $id }) {
       id
       title
+      largeImage
       price
       description
     }
@@ -126,3 +127,5 @@ const InputField = props => {
     </label>
   );
 };
+
+export { SINGLE_ITEM_QUERY };
